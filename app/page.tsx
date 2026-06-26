@@ -185,6 +185,7 @@ export default function Home() {
         <span>© {new Date().getFullYear()} Tru Collective. All rights reserved.</span>
         <div className="flex gap-6">
           <a href="/privacy" className="hover:text-[#eef1f7] transition-colors">Privacy Policy</a>
+          <a href="/terms" className="hover:text-[#eef1f7] transition-colors">Terms</a>
           <a href="/support" className="hover:text-[#eef1f7] transition-colors">Support</a>
           <a href="mailto:kmullaney67@gmail.com" className="hover:text-[#eef1f7] transition-colors">Contact</a>
         </div>
