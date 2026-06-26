@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     description: "Independent music streaming for people who care about music.",
     url: "https://trucollective.app",
     siteName: "Tru Collective",
-    images: [{ url: "/icon-tru.png" }],
+    images: [{ url: "/og.jpg", width: 1200, height: 630 }],
   },
 };
 

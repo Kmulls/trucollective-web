@@ -96,6 +96,38 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Screenshots */}
+        <section className="px-6 pb-20 max-w-5xl mx-auto">
+          <h2
+            className="text-center text-sm font-semibold uppercase tracking-widest mb-12"
+            style={{ color: "var(--accent-gold)" }}
+          >
+            See it in action
+          </h2>
+          <div className="flex gap-4 overflow-x-auto pb-4 justify-center">
+            {[
+              { src: "/screen-home.png", alt: "Home — mood mixes and featured tracks" },
+              { src: "/screen-explore.png", alt: "Explore — browse all songs" },
+              { src: "/screen-player.png", alt: "Player — full-screen now playing" },
+              { src: "/screen-artist.png", alt: "Artist page" },
+            ].map((s) => (
+              <div
+                key={s.src}
+                className="flex-shrink-0 rounded-2xl overflow-hidden border shadow-xl"
+                style={{ borderColor: "var(--border)", width: 200 }}
+              >
+                <Image
+                  src={s.src}
+                  alt={s.alt}
+                  width={200}
+                  height={433}
+                  className="w-full h-auto"
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
         {/* Features */}
         <section className="px-6 pb-24 max-w-5xl mx-auto">
           <h2
