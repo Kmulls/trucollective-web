@@ -46,14 +46,9 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-base font-semibold mb-3" style={{ color: "var(--text-primary)" }}>4. Subscriptions and Payments</h2>
-            <p className="mb-3">Tru Collective offers a free tier and a paid subscription ("Premium"). Premium subscriptions are billed through Apple's In-App Purchase system on a recurring basis.</p>
-            <ul className="list-disc list-inside space-y-2">
-              <li>Subscription fees are charged to your Apple ID account at confirmation of purchase.</li>
-              <li>Subscriptions automatically renew unless cancelled at least 24 hours before the end of the current period.</li>
-              <li>To cancel, go to Settings → Apple ID → Subscriptions on your iPhone.</li>
-              <li>Refunds are handled by Apple. We do not issue refunds directly.</li>
-            </ul>
+            <h2 className="text-base font-semibold mb-3" style={{ color: "var(--text-primary)" }}>4. Pricing and Payments</h2>
+            <p className="mb-3">Tru Collective is currently free to download and use. All music and features in the App are available at no charge, and no payment is required to create an account.</p>
+            <p>If we introduce paid features or subscriptions in the future, they will be offered exclusively through Apple's In-App Purchase system, and these Terms will be updated before any charges apply.</p>
           </section>
 
           <section>

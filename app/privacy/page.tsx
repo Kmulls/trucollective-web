@@ -52,7 +52,6 @@ export default function PrivacyPage() {
           <ul className="list-disc pl-5 space-y-1">
             <li>To provide and personalise the Tru Collective experience</li>
             <li>To sync your likes and mixtapes across devices</li>
-            <li>To process subscription payments via Apple's in-app purchase system</li>
             <li>To respond to support requests</li>
           </ul>
           <p className="mt-4">
@@ -64,8 +63,8 @@ export default function PrivacyPage() {
         <Section title="3. Data Storage">
           <p>
             Your account data is stored securely using Supabase (PostgreSQL).
-            Audio content is served from secure cloud storage. We do not store
-            payment card details — all billing is handled by Apple.
+            Audio content is served from secure cloud storage. We do not collect
+            or store any payment information — the app is free to use.
           </p>
         </Section>
 
@@ -73,7 +72,6 @@ export default function PrivacyPage() {
           <ul className="list-disc pl-5 space-y-1">
             <li><strong>Apple Sign-In</strong> — authentication</li>
             <li><strong>Supabase</strong> — database and authentication infrastructure</li>
-            <li><strong>Apple In-App Purchases</strong> — subscription billing</li>
           </ul>
         </Section>
 

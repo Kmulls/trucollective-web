@@ -8,8 +8,8 @@ export const metadata: Metadata = {
 
 const faqs = [
   {
-    q: "How do I cancel my subscription?",
-    a: "Open the Settings app on your iPhone → Apple ID → Subscriptions → Tru Collective → Cancel Subscription. Your access continues until the end of the current billing period.",
+    q: "How much does Tru Collective cost?",
+    a: "Tru Collective is free — every song and feature in the app is available at no charge, and creating an account costs nothing. If we add a paid tier in the future, it will be offered through Apple's In-App Purchase system.",
   },
   {
     q: "Is my data private?",
@@ -28,8 +28,8 @@ const faqs = [
     a: "Currently Tru Collective requires an internet connection to stream music. Offline mode is on our roadmap.",
   },
   {
-    q: "I was charged but can't access premium features.",
-    a: "Go to My Stuff → Restore Purchases inside the app. If that doesn't resolve it, contact Apple Support for billing issues, or email us and we'll help sort it out.",
+    q: "How do I share a mixtape with a friend?",
+    a: "Open any mixtape (or a song's player screen) and tap Share. Your friend gets a link that opens in their browser — and opens directly in the app if they have it installed.",
   },
   {
     q: "Is there an Android version?",
