@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "8HHD3CN8NW.com.trucollective.app",
+        "paths": [ "/m", "/m/*" ]
+      }
+    ]
+  }
+}

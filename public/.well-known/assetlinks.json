@@ -1,0 +1,13 @@
+[
+  {
+    "relation": [ "delegate_permission/common.handle_all_urls" ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.trucollective.app",
+      "sha256_cert_fingerprints": [
+        "66:F3:74:E2:12:F0:64:8F:27:40:6D:F7:22:F6:0F:EB:A6:B1:29:B6:E0:44:39:F3:CB:BE:58:5D:02:1C:48:D2",
+        "22:F0:B6:B4:41:BC:1F:14:D9:1A:D5:47:59:69:8F:40:E0:69:34:1E:93:4D:A9:3F:FA:5A:77:1D:36:7D:48:B0"
+      ]
+    }
+  }
+]
