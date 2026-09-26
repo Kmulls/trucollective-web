@@ -82,7 +82,7 @@ export default function SupportPage() {
             Email us and we'll get back to you within 48 hours.
           </p>
           <a
-            href="mailto:kmullaney67@gmail.com"
+            href="mailto:trucollectivemusic@gmail.com"
             className="inline-block px-6 py-3 rounded-xl font-semibold text-sm transition-opacity hover:opacity-90"
             style={{ background: "var(--accent-gold)", color: "#0b0d14" }}
           >
@@ -99,7 +99,7 @@ export default function SupportPage() {
         <div className="flex gap-6">
           <Link href="/" className="hover:text-[#eef1f7] transition-colors">Home</Link>
           <Link href="/privacy" className="hover:text-[#eef1f7] transition-colors">Privacy</Link>
-          <a href="mailto:kmullaney67@gmail.com" className="hover:text-[#eef1f7] transition-colors">Contact</a>
+          <a href="mailto:trucollectivemusic@gmail.com" className="hover:text-[#eef1f7] transition-colors">Contact</a>
         </div>
       </footer>
     </div>

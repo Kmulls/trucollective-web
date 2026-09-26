@@ -1,11 +1,12 @@
 import Image from "next/image";
+import TasterGrid from "./components/TasterGrid";
 
 const features = [
   {
     icon: "🎭",
     title: "Mood Mixes",
     description:
-      "Find the perfect soundtrack for every moment. Curated mixes built around how you feel right now.",
+      "Find the soundtrack for the moment you're actually in. The matching runs on your phone from a matrix built into the app — no API calls, no service listening.",
   },
   {
     icon: "📼",
@@ -17,13 +18,19 @@ const features = [
     icon: "🔗",
     title: "Share with Friends",
     description:
-      "Send playlists with a link. No account required to listen.",
+      "Send a mixtape with a link — your friend just needs the app to listen and follow along.",
   },
   {
     icon: "🎧",
     title: "Background Playback",
     description:
       "Music keeps playing when you lock your screen. Lock screen controls, AirPlay support.",
+  },
+  {
+    icon: "🎤",
+    title: "Sing Along",
+    description:
+      "Tap the art for lyrics. Singing it out loud is how we use Word Sound Power to heal and create.",
   },
 ];
 
@@ -54,9 +61,9 @@ export default function Home() {
         </nav>
       </header>
 
-      {/* Hero */}
       <main className="flex-1">
-        <section className="flex flex-col items-center text-center px-6 pt-24 pb-20">
+        {/* Hero */}
+        <section className="flex flex-col items-center text-center px-6 pt-24 pb-16">
           <Image
             src="/icon-tru.png"
             alt="Tru Collective app icon"
@@ -68,12 +75,14 @@ export default function Home() {
           <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-4 leading-tight">
             Music that moves you.
           </h1>
-          <p className="text-xl max-w-xl mb-10" style={{ color: "var(--text-secondary)" }}>
-            Tru Collective is the home for independent artists. Discover songs by
-            mood, build mixtapes, and support the artists you love.
+          <p className="text-xl max-w-xl mb-3" style={{ color: "var(--text-secondary)" }}>
+            A soundtrack for personal growth. Name where you are, and your mix is
+            built on your phone — nothing about how you feel leaves your device.
+          </p>
+          <p className="text-sm max-w-xl mb-10" style={{ color: "var(--text-secondary)", opacity: 0.75 }}>
+            Lyrics written by a human. Recordings produced with AI assistance.
           </p>
 
-          {/* CTA */}
           <div className="flex flex-col sm:flex-row gap-4 items-center">
             <a
               href="https://apps.apple.com/app/tru-collective/id6746897469"
@@ -96,6 +105,34 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Taster tracks */}
+        <TasterGrid />
+
+        {/* The story */}
+        <section className="px-6 pb-20 max-w-3xl mx-auto text-center">
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
+            The Tru Collective Story
+          </h2>
+          <p className="text-lg leading-relaxed mb-4" style={{ color: "var(--text-secondary)" }}>
+            Tru Collective started as a soundtrack for surviving. Over one year of
+            extreme stress, loss and pressure, one person wrote across five voices
+            — 144Kai, Tru Roots, The Mercy Hearts, Soul Fam, Rua Isbe. Not songs
+            about the hard year. Songs written through it, to get to the other side
+            of it.
+          </p>
+          <p className="text-lg leading-relaxed mb-6" style={{ color: "var(--text-secondary)" }}>
+            They worked. So the app got built, alone, so the songs could do the
+            same for you. Let music be thy medicine.
+          </p>
+          <a
+            href="#for-artists"
+            className="text-sm font-semibold"
+            style={{ color: "var(--accent-gold)" }}
+          >
+            For artists →
+          </a>
+        </section>
+
         {/* Screenshots */}
         <section className="px-6 pb-20 max-w-5xl mx-auto">
           <h2
@@ -106,9 +143,9 @@ export default function Home() {
           </h2>
           <div className="flex gap-4 overflow-x-auto pb-4 justify-center">
             {[
-              { src: "/screen-home.png", alt: "Home — mood mixes and featured tracks" },
-              { src: "/screen-explore.png", alt: "Explore — browse all songs" },
-              { src: "/screen-player.png", alt: "Player — full-screen now playing" },
+              { src: "/screen-home.png", alt: "Home — mood mixes, matched on your device" },
+              { src: "/screen-explore.png", alt: "Explore — browse the full catalogue" },
+              { src: "/screen-player.png", alt: "Player — tap the art for lyrics and sing along" },
               { src: "/screen-artist.png", alt: "Artist page" },
             ].map((s) => (
               <div
@@ -153,14 +190,32 @@ export default function Home() {
           </div>
         </section>
 
-        {/* App Store badge row */}
+        {/* For artists */}
         <section
-          className="border-t py-16 px-6 text-center"
+          id="for-artists"
+          className="px-6 py-20 text-center border-t"
           style={{ borderColor: "var(--border)", background: "var(--surface)" }}
         >
+          <h2 className="text-3xl font-bold tracking-tight mb-4">The door is open.</h2>
+          <p className="max-w-xl mx-auto mb-8" style={{ color: "var(--text-secondary)" }}>
+            Tru Collective starts with one catalogue, but it isn&rsquo;t meant to end
+            there. If you want to cover a song, collaborate, or talk about bringing
+            your music in, get in touch.
+          </p>
+          <a
+            href="mailto:trucollectivemusic@gmail.com"
+            className="inline-flex items-center px-6 py-3 rounded-xl font-semibold text-sm border transition-colors hover:opacity-90"
+            style={{ borderColor: "var(--accent-gold)", color: "var(--accent-gold)" }}
+          >
+            trucollectivemusic@gmail.com
+          </a>
+        </section>
+
+        {/* Closing */}
+        <section className="border-t py-16 px-6 text-center" style={{ borderColor: "var(--border)" }}>
           <p className="text-2xl font-bold mb-2">Ready to listen?</p>
           <p className="mb-8" style={{ color: "var(--text-secondary)" }}>
-            Available now on the App Store. Free to start.
+            Available now on the App Store. Free.
           </p>
           <a
             href="https://apps.apple.com/app/tru-collective/id6746897469"
@@ -179,15 +234,21 @@ export default function Home() {
 
       {/* Footer */}
       <footer
-        className="flex flex-col sm:flex-row items-center justify-between gap-3 px-8 py-6 text-sm border-t"
+        className="px-8 py-8 text-sm border-t"
         style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
       >
-        <span>© {new Date().getFullYear()} Tru Collective. All rights reserved.</span>
-        <div className="flex gap-6">
-          <a href="/privacy" className="hover:text-[#eef1f7] transition-colors">Privacy Policy</a>
-          <a href="/terms" className="hover:text-[#eef1f7] transition-colors">Terms</a>
-          <a href="/support" className="hover:text-[#eef1f7] transition-colors">Support</a>
-          <a href="mailto:kmullaney67@gmail.com" className="hover:text-[#eef1f7] transition-colors">Contact</a>
+        <p className="max-w-2xl mx-auto text-center mb-6" style={{ opacity: 0.7 }}>
+          Tru Collective is music made with the intention to uplift. It is not a
+          medical device, not therapy, and not a substitute for professional care.
+        </p>
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <span>© {new Date().getFullYear()} Tru Collective Music. All rights reserved. Tru Collective Music™</span>
+          <div className="flex gap-6">
+            <a href="/privacy" className="hover:text-[#eef1f7] transition-colors">Privacy Policy</a>
+            <a href="/terms" className="hover:text-[#eef1f7] transition-colors">Terms</a>
+            <a href="/support" className="hover:text-[#eef1f7] transition-colors">Support</a>
+            <a href="mailto:trucollectivemusic@gmail.com" className="hover:text-[#eef1f7] transition-colors">Contact</a>
+          </div>
         </div>
       </footer>
     </div>

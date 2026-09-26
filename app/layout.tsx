@@ -3,12 +3,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://trucollective.app"),
-  title: "Tru Collective — Independent Music Streaming",
+  title: "Tru Collective — A Soundtrack for Personal Growth",
   description:
-    "Discover independent artists. Build mixtapes. Stream by mood. Tru Collective is the home for music that moves you.",
+    "Stream by mood, build mixtapes, sing along. Written by one person through one hard year, and built to lift you.",
   openGraph: {
     title: "Tru Collective",
-    description: "Independent music streaming for people who care about music.",
+    description: "A soundtrack for personal growth. Mood mixes that run on your device.",
     url: "https://trucollective.app",
     siteName: "Tru Collective",
     images: [{ url: "/og.jpg", width: 1200, height: 630 }],

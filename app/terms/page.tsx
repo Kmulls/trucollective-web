@@ -103,8 +103,8 @@ export default function TermsPage() {
             <h2 className="text-base font-semibold mb-3" style={{ color: "var(--text-primary)" }}>13. Contact</h2>
             <p>
               Questions about these Terms? Contact us at{" "}
-              <a href="mailto:kmullaney67@gmail.com" className="underline hover:opacity-80">
-                kmullaney67@gmail.com
+              <a href="mailto:trucollectivemusic@gmail.com" className="underline hover:opacity-80">
+                trucollectivemusic@gmail.com
               </a>.
             </p>
           </section>
@@ -120,7 +120,7 @@ export default function TermsPage() {
         <div className="flex gap-6">
           <Link href="/" className="hover:text-[#eef1f7] transition-colors">Home</Link>
           <Link href="/privacy" className="hover:text-[#eef1f7] transition-colors">Privacy</Link>
-          <a href="mailto:kmullaney67@gmail.com" className="hover:text-[#eef1f7] transition-colors">Contact</a>
+          <a href="mailto:trucollectivemusic@gmail.com" className="hover:text-[#eef1f7] transition-colors">Contact</a>
         </div>
       </footer>
     </div>

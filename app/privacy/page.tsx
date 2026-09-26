@@ -110,11 +110,11 @@ export default function PrivacyPage() {
           <p>
             For questions about this privacy policy, reach out to:{" "}
             <a
-              href="mailto:kmullaney67@gmail.com"
+              href="mailto:trucollectivemusic@gmail.com"
               className="underline hover:opacity-80 transition-opacity"
               style={{ color: "var(--accent-gold)" }}
             >
-              kmullaney67@gmail.com
+              trucollectivemusic@gmail.com
             </a>
           </p>
         </Section>
@@ -146,7 +146,7 @@ function Footer() {
       <div className="flex gap-6">
         <Link href="/" className="hover:text-[#eef1f7] transition-colors">Home</Link>
         <Link href="/support" className="hover:text-[#eef1f7] transition-colors">Support</Link>
-        <a href="mailto:kmullaney67@gmail.com" className="hover:text-[#eef1f7] transition-colors">Contact</a>
+        <a href="mailto:trucollectivemusic@gmail.com" className="hover:text-[#eef1f7] transition-colors">Contact</a>
       </div>
     </footer>
   );
