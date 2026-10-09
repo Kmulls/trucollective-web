@@ -2,11 +2,12 @@
 """Regenerate app/lib/radioTracks.ts from the Tru Collective app catalog.
 
 Run after the catalog changes (new songs, hold-list edits):
-    python3 scripts/generate-radio-tracks.py [path-to-tru-collective-app-repo]
+    python3 scripts/generate-radio-tracks.py [path-to-tru-collective-app-repo] [--exclude-held]
 
-Eligibility mirrors what the app itself will play ambiently, minus anything the
-app deliberately gates:
-  - held songs (src/data/hold.json)          -> excluded, same as the app
+Eligibility:
+  - held songs (src/data/hold.json)          -> INCLUDED by default (Kevin's call,
+    2026-10-09: the radio plays held songs too). Pass --exclude-held to follow
+    the app's hold list instead.
   - songs still in the Fresh Produce window  -> excluded (app-first drops)
   - `protected: true` songs                  -> excluded. In the app these only
     play when a listener's mood/intention matches (guardrailAllows in
@@ -19,7 +20,9 @@ seconds of error per song would put listeners out of sync with the audio.
 import json, subprocess, sys, os, datetime
 from concurrent.futures import ThreadPoolExecutor
 
-APP = os.path.expanduser(sys.argv[1] if len(sys.argv) > 1 else "~/tru-collective")
+ARGS = [a for a in sys.argv[1:] if not a.startswith("--")]
+EXCLUDE_HELD = "--exclude-held" in sys.argv
+APP = os.path.expanduser(ARGS[0] if ARGS else "~/tru-collective")
 SUPA = "https://wwdjwzdlkyijvtaqlmqz.supabase.co"
 FRESH_WINDOW_DAYS = 11
 
@@ -33,7 +36,10 @@ for f in fresh_entries:
     if (now - added).days <= FRESH_WINDOW_DAYS:
         fresh.add(f["id"])
 
-eligible = [t for t in catalog if t["id"] not in held and t["id"] not in fresh and not t.get("protected")]
+eligible = [
+    t for t in catalog
+    if (not EXCLUDE_HELD or t["id"] not in held) and t["id"] not in fresh and not t.get("protected")
+]
 print(f"catalog {len(catalog)} | held {len(held)} | fresh {len(fresh)} | "
       f"protected {sum(1 for t in catalog if t.get('protected'))} | eligible {len(eligible)}")
 
