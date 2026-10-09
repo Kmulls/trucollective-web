@@ -13,6 +13,10 @@ Eligibility:
     play when a listener's mood/intention matches (guardrailAllows in
     recommend.ts). A radio has no mood-matching, so they'd surface at random.
 
+Per-artist keep-lists (ARTIST_KEEP below): for a listed artist, ONLY the named
+songs are eligible. Mercy Hearts is trimmed to 7 songs at Kevin's direction
+(2026-10-09).
+
 Durations are measured with ffprobe against the public audio files (not trusted
 from catalog.json) because the radio schedule is computed from them — a few
 seconds of error per song would put listeners out of sync with the audio.
@@ -36,9 +40,25 @@ for f in fresh_entries:
     if (now - added).days <= FRESH_WINDOW_DAYS:
         fresh.add(f["id"])
 
+# For these artists only the listed song IDs are eligible; everything else by them is out.
+ARTIST_KEEP = {
+    "Mercy Hearts": {
+        "MERCY-045",  # Pocket full of stars
+        "MERCY-055",  # Entangled
+        "MERCY-049",  # Growing up is Hard
+        "MERCY-015",  # Drove Away
+        "MERCY-033",  # Slow Burn
+        "MERCY-042",  # Open Road Faith
+        "MERCY-024",  # No Loose Ends
+    },
+}
+
 eligible = [
     t for t in catalog
-    if (not EXCLUDE_HELD or t["id"] not in held) and t["id"] not in fresh and not t.get("protected")
+    if (not EXCLUDE_HELD or t["id"] not in held)
+    and t["id"] not in fresh
+    and not t.get("protected")
+    and (t["artist"] not in ARTIST_KEEP or t["id"] in ARTIST_KEEP[t["artist"]])
 ]
 print(f"catalog {len(catalog)} | held {len(held)} | fresh {len(fresh)} | "
       f"protected {sum(1 for t in catalog if t.get('protected'))} | eligible {len(eligible)}")
