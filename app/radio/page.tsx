@@ -46,21 +46,6 @@ export default function RadioPage() {
         </section>
 
         <RadioPlayer />
-
-        <section className="px-6 pb-16 text-center">
-          <p className="text-sm mb-4" style={{ color: "var(--text-secondary)" }}>
-            Want to pick your own songs, build mixtapes, and get mood mixes made on your phone?
-          </p>
-          <a
-            href="https://apps.apple.com/app/tru-collective/id6746897469"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center px-6 py-3 rounded-xl font-semibold text-sm border transition-opacity hover:opacity-90"
-            style={{ borderColor: "var(--accent-gold)", color: "var(--accent-gold)" }}
-          >
-            Get the app
-          </a>
-        </section>
       </main>
 
       <footer
