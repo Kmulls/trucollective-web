@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
-import { onAir, type OnAir } from "../lib/radioSchedule";
+import { onAir, type OnAir, type RadioItem } from "../lib/radioSchedule";
 import { audioUrl, artUrl } from "../lib/media";
 
 // Plays the "simulated live" schedule from radioSchedule.ts. One <audio> element:
@@ -14,6 +14,10 @@ const DRIFT_SECONDS = 3; // re-seek if the audio strays this far from the schedu
 const RETRY_AFTER_ERROR_MS = 4000;
 
 type Status = "idle" | "connecting" | "live" | "error";
+
+// Songs stream from the audio bucket; voice spots are static files on this site.
+const audioSrc = (t: RadioItem) => (t.kind === "voice" ? `/radio-spots/${t.audioFile}` : audioUrl(t.audioFile));
+const artSrc = (t: RadioItem) => (t.kind === "voice" ? "/icon-tru.png" : artUrl(t.artFile));
 
 const fmt = (s: number) => {
   const t = Math.max(0, Math.floor(s));
@@ -41,7 +45,7 @@ export default function RadioPlayer() {
       if (Date.now() - lastErrorAtRef.current < RETRY_AFTER_ERROR_MS) return;
       loadedIdRef.current = s.track.id;
       setStatus("connecting");
-      a.src = audioUrl(s.track.audioFile);
+      a.src = audioSrc(s.track);
       try {
         a.currentTime = s.offset; // default start position; honoured by most browsers
       } catch {
@@ -110,7 +114,7 @@ export default function RadioPlayer() {
       title: air.track.title,
       artist: air.track.artist,
       album: "Tru Collective Radio",
-      artwork: [{ src: artUrl(air.track.artFile), sizes: "512x512" }],
+      artwork: [{ src: new URL(artSrc(air.track), window.location.origin).href, sizes: "512x512" }],
     });
     ms.playbackState = "playing";
     ms.setActionHandler("play", tuneIn);
@@ -177,7 +181,7 @@ export default function RadioPlayer() {
         {air && (
           <Image
             key={air.track.id}
-            src={artUrl(air.track.artFile)}
+            src={artSrc(air.track)}
             alt=""
             width={280}
             height={280}
@@ -247,7 +251,7 @@ export default function RadioPlayer() {
           {air.next.map((t) => (
             <div key={t.id} className="flex items-center gap-3 py-2">
               <Image
-                src={artUrl(t.artFile)}
+                src={artSrc(t)}
                 alt=""
                 width={40}
                 height={40}
