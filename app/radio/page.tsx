@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import RadioPlayer from "../components/RadioPlayer";
+import { APP_PUBLISHED, APP_STORE_URL, ACCESS_EMAIL, ACCESS_MAILTO } from "../lib/siteConfig";
 
 export const metadata: Metadata = {
   title: "Tru Collective Radio — Live",
@@ -46,6 +47,38 @@ export default function RadioPage() {
         </section>
 
         <RadioPlayer />
+
+        <section className="px-6 pb-16 text-center">
+          {APP_PUBLISHED ? (
+            <>
+              <p className="text-sm mb-4" style={{ color: "var(--text-secondary)" }}>
+                Want to pick your own songs, build mixtapes, and get mood mixes made on your phone?
+              </p>
+              <a
+                href={APP_STORE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center px-6 py-3 rounded-xl font-semibold text-sm border transition-opacity hover:opacity-90"
+                style={{ borderColor: "var(--accent-gold)", color: "var(--accent-gold)" }}
+              >
+                Get the app
+              </a>
+            </>
+          ) : (
+            <>
+              <p className="text-sm mb-4" style={{ color: "var(--text-secondary)" }}>
+                {`Want the app? It’s invite-only right now — email ${ACCESS_EMAIL} for access.`}
+              </p>
+              <a
+                href={ACCESS_MAILTO}
+                className="inline-flex items-center px-6 py-3 rounded-xl font-semibold text-sm border transition-opacity hover:opacity-90"
+                style={{ borderColor: "var(--accent-gold)", color: "var(--accent-gold)" }}
+              >
+                Email for access
+              </a>
+            </>
+          )}
+        </section>
       </main>
 
       <footer

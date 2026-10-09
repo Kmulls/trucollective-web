@@ -1,5 +1,6 @@
 import Image from "next/image";
 import TasterGrid from "./components/TasterGrid";
+import { APP_PUBLISHED, APP_STORE_URL, ACCESS_EMAIL, ACCESS_MAILTO } from "./lib/siteConfig";
 
 const features = [
   {
@@ -85,8 +86,9 @@ export default function Home() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center">
+            {APP_PUBLISHED ? (
             <a
-              href="https://apps.apple.com/app/tru-collective/id6746897469"
+              href={APP_STORE_URL}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-3 px-7 py-4 rounded-xl font-semibold text-base transition-opacity hover:opacity-90"
@@ -97,6 +99,15 @@ export default function Home() {
               </svg>
               Download on the App Store
             </a>
+            ) : (
+              <a
+                href="/radio"
+                className="inline-flex items-center gap-3 px-7 py-4 rounded-xl font-semibold text-base transition-opacity hover:opacity-90"
+                style={{ background: "var(--accent-gold)", color: "#0b0d14" }}
+              >
+                ▶ Tune in to Tru Collective Radio
+              </a>
+            )}
             <span
               className="text-sm px-5 py-2 rounded-xl border"
               style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
@@ -104,13 +115,23 @@ export default function Home() {
               iOS · Android coming soon
             </span>
           </div>
-          <a
-            href="/radio"
-            className="mt-6 text-sm font-semibold transition-opacity hover:opacity-80"
-            style={{ color: "var(--accent-gold)" }}
-          >
-            ▶ Or tune in to Tru Collective Radio — live now
-          </a>
+          {APP_PUBLISHED ? (
+            <a
+              href="/radio"
+              className="mt-6 text-sm font-semibold transition-opacity hover:opacity-80"
+              style={{ color: "var(--accent-gold)" }}
+            >
+              ▶ Or tune in to Tru Collective Radio — live now
+            </a>
+          ) : (
+            <p className="mt-6 text-sm" style={{ color: "var(--text-secondary)" }}>
+              The app is invite-only right now &mdash; email{" "}
+              <a href={ACCESS_MAILTO} className="underline" style={{ color: "var(--accent-gold)" }}>
+                {ACCESS_EMAIL}
+              </a>{" "}
+              for access.
+            </p>
+          )}
         </section>
 
         {/* Taster tracks */}
@@ -221,12 +242,24 @@ export default function Home() {
 
         {/* Closing */}
         <section className="border-t py-16 px-6 text-center" style={{ borderColor: "var(--border)" }}>
-          <p className="text-2xl font-bold mb-2">Ready to listen?</p>
-          <p className="mb-8" style={{ color: "var(--text-secondary)" }}>
-            Available now on the App Store. Free.
-          </p>
+          {APP_PUBLISHED ? (
+            <>
+              <p className="text-2xl font-bold mb-2">Ready to listen?</p>
+              <p className="mb-8" style={{ color: "var(--text-secondary)" }}>
+                Available now on the App Store. Free.
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-2xl font-bold mb-2">Want in?</p>
+              <p className="mb-8 max-w-md mx-auto" style={{ color: "var(--text-secondary)" }}>
+                {`The app is invite-only right now. Email ${ACCESS_EMAIL} and we’ll get you access.`}
+              </p>
+            </>
+          )}
+          {APP_PUBLISHED ? (
           <a
-            href="https://apps.apple.com/app/tru-collective/id6746897469"
+            href={APP_STORE_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 px-7 py-4 rounded-xl font-semibold text-base transition-opacity hover:opacity-90"
@@ -237,6 +270,15 @@ export default function Home() {
             </svg>
             Download on the App Store
           </a>
+          ) : (
+            <a
+              href={ACCESS_MAILTO}
+              className="inline-flex items-center gap-3 px-7 py-4 rounded-xl font-semibold text-base transition-opacity hover:opacity-90"
+              style={{ background: "var(--accent-gold)", color: "#0b0d14" }}
+            >
+              Email for access
+            </a>
+          )}
         </section>
       </main>
 
