@@ -56,6 +56,7 @@ export default function Home() {
           <span className="font-semibold text-lg tracking-tight">Tru Collective</span>
         </div>
         <nav className="flex items-center gap-6 text-sm" style={{ color: "var(--text-secondary)" }}>
+          <a href="/radio" className="hover:text-[#eef1f7] transition-colors">Radio</a>
           <a href="/support" className="hover:text-[#eef1f7] transition-colors">Support</a>
           <a href="/privacy" className="hover:text-[#eef1f7] transition-colors">Privacy</a>
         </nav>
@@ -103,6 +104,13 @@ export default function Home() {
               iOS · Android coming soon
             </span>
           </div>
+          <a
+            href="/radio"
+            className="mt-6 text-sm font-semibold transition-opacity hover:opacity-80"
+            style={{ color: "var(--accent-gold)" }}
+          >
+            ▶ Or tune in to Tru Collective Radio — live now
+          </a>
         </section>
 
         {/* Taster tracks */}
