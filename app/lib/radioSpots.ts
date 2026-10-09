@@ -14,5 +14,6 @@ export type RadioSpot = { id: string; file: string; duration: number };
 // BEGIN GENERATED (scripts/add-radio-spot.py)
 export const RADIO_SPOTS: RadioSpot[] = [
   { id: "dj-01", file: "dj-01.mp3", duration: 4.799 },
+  { id: "dj-02", file: "dj-02.mp3", duration: 4.543 },
 ];
 // END GENERATED
