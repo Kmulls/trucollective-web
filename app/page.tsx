@@ -129,7 +129,7 @@ export default function Home() {
               <a href={ACCESS_MAILTO} className="underline" style={{ color: "var(--accent-gold)" }}>
                 {ACCESS_EMAIL}
               </a>{" "}
-              for access.
+              for access &mdash; just tell us if you&rsquo;re on an Apple or Android phone.
             </p>
           )}
         </section>
@@ -253,7 +253,7 @@ export default function Home() {
             <>
               <p className="text-2xl font-bold mb-2">Want in?</p>
               <p className="mb-8 max-w-md mx-auto" style={{ color: "var(--text-secondary)" }}>
-                {`The app is invite-only right now. Email ${ACCESS_EMAIL} and we’ll get you access.`}
+                {`The app is invite-only right now. Email ${ACCESS_EMAIL} and tell us if you’re on an Apple or Android phone, and we’ll get you access.`}
               </p>
             </>
           )}
