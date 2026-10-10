@@ -67,7 +67,7 @@ export default function RadioPage() {
           ) : (
             <>
               <p className="text-sm mb-4" style={{ color: "var(--text-secondary)" }}>
-                {`Want the app? It’s invite-only right now — email ${ACCESS_EMAIL} for access, and just tell us if you’re on an Apple or Android phone.`}
+                {`Want the app? It’s invite-only right now — email ${ACCESS_EMAIL} for access, and just tell us if you’re on an Apple or Android phone, plus the email you use for your Apple ID or Google account.`}
               </p>
               <a
                 href={ACCESS_MAILTO}

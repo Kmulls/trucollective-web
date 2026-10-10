@@ -12,5 +12,5 @@ export const APP_STORE_URL = "https://apps.apple.com/app/id6781126475";
 export const ACCESS_EMAIL = "trucollectivemusic@gmail.com";
 // Prefilled so people see the one thing we need from them: Apple or Android.
 const ACCESS_SUBJECT = "Tru Collective app access";
-const ACCESS_BODY = "Hi! I'd like access to the Tru Collective app.\n\nMy phone is (Apple or Android): ";
+const ACCESS_BODY = "Hi! I'd like access to the Tru Collective app.\n\nMy phone is (Apple or Android): \n\nThe email I use for my Apple ID or Google account: ";
 export const ACCESS_MAILTO = `mailto:${ACCESS_EMAIL}?subject=${encodeURIComponent(ACCESS_SUBJECT)}&body=${encodeURIComponent(ACCESS_BODY)}`;
