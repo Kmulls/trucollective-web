@@ -53,9 +53,15 @@ ARTIST_KEEP = {
     },
 }
 
+# Songs pulled from the radio by request, whatever else is true of them.
+NEVER_PLAY = {
+    "KAI-047",  # Feared By Weak men
+}
+
 eligible = [
     t for t in catalog
-    if (not EXCLUDE_HELD or t["id"] not in held)
+    if t["id"] not in NEVER_PLAY
+    and (not EXCLUDE_HELD or t["id"] not in held)
     and t["id"] not in fresh
     and not t.get("protected")
     and (t["artist"] not in ARTIST_KEEP or t["id"] in ARTIST_KEEP[t["artist"]])
