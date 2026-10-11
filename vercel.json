@@ -8,15 +8,6 @@
           "value": "application/json"
         }
       ]
-    },
-    {
-      "source": "/radio/opengraph-image",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "image/png"
-        }
-      ]
     }
   ]
 }
