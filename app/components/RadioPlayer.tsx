@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { onAir, type OnAir, type RadioItem } from "../lib/radioSchedule";
 import { audioUrl, artUrl } from "../lib/media";
+import RadioLyrics from "./RadioLyrics";
 
 // Plays the "simulated live" schedule from radioSchedule.ts. Every second we ask the
 // schedule what should be on air right now, load that if it isn't what's playing,
@@ -48,6 +49,9 @@ export default function RadioPlayer() {
   const [air, setAir] = useState<OnAir | null>(null);
   const [tuned, setTuned] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
+  // Tap the artwork to flip it to scrolling lyrics (and back). Stays flipped from song to song.
+  const [showLyrics, setShowLyrics] = useState(false);
+  const [hasFlipped, setHasFlipped] = useState(false); // stop the hint arrow bouncing once they've tried it
 
   // Empty a deck. Marks it empty FIRST so any events the reset triggers are ignored.
   const clearDeck = useCallback((i: number) => {
@@ -274,22 +278,64 @@ export default function RadioPlayer() {
         On air
       </div>
 
+      {!showLyrics && (
+        <p className="text-xs font-semibold mb-2" style={{ color: "var(--accent-gold)" }}>
+          <span className={hasFlipped ? "inline-block" : "inline-block animate-bounce"}>↓</span> Tap the art for lyrics
+        </p>
+      )}
+
       <div
-        className="mx-auto rounded-2xl overflow-hidden border shadow-2xl"
+        role="button"
+        tabIndex={0}
+        aria-label={showLyrics ? "Show artwork" : "Show lyrics"}
+        onClick={() => {
+          setShowLyrics((v) => !v);
+          setHasFlipped(true);
+        }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setShowLyrics((v) => !v);
+            setHasFlipped(true);
+          }
+        }}
+        className="relative mx-auto rounded-2xl overflow-hidden border shadow-2xl cursor-pointer"
         // Shrinks on short screens so the Play button stays on the first screen.
         style={{ width: "min(280px, 34vh)", height: "min(280px, 34vh)", borderColor: "var(--border)", background: "var(--card)" }}
       >
-        {air && (
-          <Image
-            key={air.track.id}
-            src={artSrc(air.track)}
-            alt=""
-            width={280}
-            height={280}
-            unoptimized
-            priority
-            className="w-full h-full object-cover"
-          />
+        {air && showLyrics ? (
+          <>
+            <RadioLyrics track={air.track} startedAtMs={air.startedAtMs} />
+            <span
+              className="absolute bottom-1.5 inset-x-0 text-[11px] pointer-events-none"
+              style={{ color: "var(--text-secondary)" }}
+            >
+              tap to show art
+            </span>
+          </>
+        ) : (
+          air && (
+            <>
+              <Image
+                key={air.track.id}
+                src={artSrc(air.track)}
+                alt=""
+                width={280}
+                height={280}
+                unoptimized
+                priority
+                className="w-full h-full object-cover"
+              />
+              {air.track.kind === "song" && (
+                <span
+                  className="absolute bottom-2 right-2 rounded-full px-3 py-1.5 text-xs font-bold pointer-events-none"
+                  style={{ background: "rgba(11,13,20,0.78)", color: "var(--text-primary)" }}
+                >
+                  📃 Lyrics
+                </span>
+              )}
+            </>
+          )
         )}
       </div>
 
@@ -339,6 +385,11 @@ export default function RadioPlayer() {
           {status === "live" && "Live — in sync with everyone listening"}
           {status === "error" && "Couldn’t load that song — retrying…"}
         </p>
+        {!showLyrics && (
+          <p className="text-xs mt-2" style={{ color: "var(--text-secondary)" }}>
+            <span style={{ color: "var(--accent-gold)" }}>↑</span> Tap the art to sing along &mdash; lyrics scroll like karaoke
+          </p>
+        )}
       </div>
 
       {air && (
