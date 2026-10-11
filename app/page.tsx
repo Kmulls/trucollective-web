@@ -7,7 +7,13 @@ const features = [
     icon: "🎭",
     title: "Mood Mixes",
     description:
-      "Find the soundtrack for the moment you're actually in. The matching runs on your phone from a matrix built into the app — no API calls, no service listening.",
+      "Find the soundtrack for the moment you're actually in. The matching runs on your phone from a matrix built into the app — no API calls, no service listening. Nothing about your mood leaves your device.",
+  },
+  {
+    icon: "🎛",
+    title: "Make It Yours",
+    description:
+      "Skip any genre you don't want, and add your sun, moon and rising to tune the mix to you. It all stays on your phone.",
   },
   {
     icon: "📼",
@@ -19,7 +25,7 @@ const features = [
     icon: "🔗",
     title: "Share with Friends",
     description:
-      "Send a mixtape with a link — your friend just needs the app to listen and follow along.",
+      "Send a mixtape with a link — your friend just needs the app to listen and follow along. Tru Collective Radio plays free right here on the web.",
   },
   {
     icon: "🎧",
