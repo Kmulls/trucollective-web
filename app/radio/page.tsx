@@ -39,11 +39,10 @@ export default function RadioPage() {
       </header>
 
       <main className="flex-1">
-        <section className="text-center px-6 pt-14">
-          <h1 className="text-3xl md:text-4xl font-bold tracking-tight mb-2">Tru Collective Radio</h1>
-          <p className="max-w-md mx-auto text-sm" style={{ color: "var(--text-secondary)" }}>
-            One loop of the catalogue, playing for everyone at once. Tap tune in and
-            you&rsquo;ll land wherever it is right now.
+        <section className="text-center px-6 pt-4 sm:pt-8">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight mb-1">Tru Collective Radio</h1>
+          <p className="max-w-md mx-auto text-xs sm:text-sm" style={{ color: "var(--text-secondary)" }}>
+            Playing for everyone at once &mdash; press play and you&rsquo;ll land wherever it is right now.
           </p>
         </section>
 

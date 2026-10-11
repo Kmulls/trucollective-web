@@ -240,7 +240,7 @@ export default function RadioPlayer() {
   const pct = air ? Math.min(100, (air.offset / air.track.duration) * 100) : 0;
 
   return (
-    <div className="w-full max-w-md mx-auto px-6 pt-8 pb-16 text-center">
+    <div className="w-full max-w-md mx-auto px-6 pt-3 sm:pt-6 pb-16 text-center">
       {[0, 1].map((i) => (
         <audio
           key={i}
@@ -261,7 +261,7 @@ export default function RadioPlayer() {
       ))}
 
       <div
-        className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-6"
+        className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-3 sm:mb-5"
         style={{ color: "var(--accent-red)" }}
       >
         <span className="relative flex h-2.5 w-2.5">
@@ -276,7 +276,8 @@ export default function RadioPlayer() {
 
       <div
         className="mx-auto rounded-2xl overflow-hidden border shadow-2xl"
-        style={{ width: 280, height: 280, borderColor: "var(--border)", background: "var(--card)" }}
+        // Shrinks on short screens so the Play button stays on the first screen.
+        style={{ width: "min(280px, 34vh)", height: "min(280px, 34vh)", borderColor: "var(--border)", background: "var(--card)" }}
       >
         {air && (
           <Image
@@ -292,12 +293,12 @@ export default function RadioPlayer() {
         )}
       </div>
 
-      <h2 className="text-2xl font-bold tracking-tight mt-6 min-h-[2rem]">{air?.track.title ?? " "}</h2>
+      <h2 className="text-2xl font-bold tracking-tight mt-4 min-h-[2rem]">{air?.track.title ?? " "}</h2>
       <p className="text-sm mt-1 min-h-[1.25rem]" style={{ color: "var(--text-secondary)" }}>
         {air ? `${air.track.artist} · ${air.track.genre}` : " "}
       </p>
 
-      <div className="mt-6">
+      <div className="mt-4">
         <div className="h-[3px] rounded-full overflow-hidden" style={{ background: "var(--border)" }}>
           <div
             className="h-full rounded-full"
@@ -314,7 +315,7 @@ export default function RadioPlayer() {
         </div>
       </div>
 
-      <div className="mt-8">
+      <div className="mt-5">
         {tuned ? (
           <button
             onClick={stop}
@@ -330,7 +331,7 @@ export default function RadioPlayer() {
             className="px-8 py-4 rounded-xl font-semibold text-base transition-opacity hover:opacity-90 disabled:opacity-50"
             style={{ background: "var(--accent-gold)", color: "#0b0d14" }}
           >
-            ▶ Tune in
+            ▶ Press Play
           </button>
         )}
         <p className="text-xs mt-3 min-h-[1rem]" style={{ color: "var(--text-secondary)" }}>
