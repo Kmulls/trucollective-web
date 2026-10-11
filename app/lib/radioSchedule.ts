@@ -1,5 +1,5 @@
 import { RADIO_TRACKS, type RadioTrack } from "./radioTracks";
-import { RADIO_SPOTS, SPOT_EVERY, DJ_NAME } from "./radioSpots";
+import { RADIO_SPOTS, SPOT_EVERY, DJ_NAME, type RadioSpot } from "./radioSpots";
 
 // "Simulated live" radio: there is no stream and no server. What's on air is a
 // pure function of the wall clock, so everyone who tunes in at the same moment
@@ -71,10 +71,36 @@ function songOrder(cycle: number): RadioItem[] {
   return o;
 }
 
-function spotItem(n: number): RadioItem {
-  // Spot n of a cycle always uses the same clip (n % count), in EVERY cycle, so a
-  // cycle's total length is the same each time — the clock math depends on that.
-  const s = RADIO_SPOTS[n % RADIO_SPOTS.length];
+// The app promo plays roughly every PROMO_EVERY-th break; everything else rotates
+// through the regular DJ clips in order.
+const PROMO_EVERY = 6;
+
+const SLOT_COUNT = RADIO_SPOTS.length ? Math.ceil(SONGS.length / SPOT_EVERY) : 0;
+
+// Which break slots (0-based, within a cycle) carry the promo: evenly spaced, about one
+// per PROMO_EVERY breaks, and always the last slot (so each loop ends on it).
+function promoSlots(slotCount: number): Set<number> {
+  const set = new Set<number>();
+  if (!RADIO_SPOTS.some((x) => x.promo) || slotCount === 0) return set;
+  const count = Math.max(1, Math.round(slotCount / PROMO_EVERY));
+  for (let k = 0; k < count; k++) set.add(Math.floor(((k + 1) * slotCount) / count) - 1);
+  return set;
+}
+
+// Which clip goes in each break slot of a cycle. This is the SAME in every cycle on
+// purpose: the clock math needs every cycle to be exactly the same length, so the
+// clip choice can't vary from cycle to cycle.
+const SLOT_PLAN: RadioSpot[] = (() => {
+  const promos = RADIO_SPOTS.filter((x) => x.promo);
+  const regular = RADIO_SPOTS.filter((x) => !x.promo);
+  const pool = regular.length ? regular : promos;
+  const promoAt = promoSlots(SLOT_COUNT);
+  let p = 0;
+  let r = 0;
+  return Array.from({ length: SLOT_COUNT }, (_, n) => (promoAt.has(n) ? promos[p++ % promos.length] : pool[r++ % pool.length]));
+})();
+
+function spotItem(s: RadioSpot): RadioItem {
   return {
     id: `voice:${s.id}`,
     title: "Station break",
@@ -102,7 +128,7 @@ function playoutFor(cycle: number): RadioItem[] {
     let spotN = 0;
     songs.forEach((s, i) => {
       out.push(s);
-      if ((i + 1) % SPOT_EVERY === 0 || i === songs.length - 1) out.push(spotItem(spotN++));
+      if ((i + 1) % SPOT_EVERY === 0 || i === songs.length - 1) out.push(spotItem(SLOT_PLAN[spotN++]));
     });
   }
   if (playoutCache.size > 8) playoutCache.clear();
