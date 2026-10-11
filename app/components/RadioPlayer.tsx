@@ -5,13 +5,23 @@ import Image from "next/image";
 import { onAir, type OnAir, type RadioItem } from "../lib/radioSchedule";
 import { audioUrl, artUrl } from "../lib/media";
 
-// Plays the "simulated live" schedule from radioSchedule.ts. One <audio> element:
-// every second we ask the schedule what should be on air right now, load that
-// song if it isn't the one playing, jump to the right spot, and nudge the audio
-// back into line if it drifts (buffering stalls, a throttled background tab).
+// Plays the "simulated live" schedule from radioSchedule.ts. Every second we ask the
+// schedule what should be on air right now, load that if it isn't what's playing,
+// jump to the right spot, and nudge the audio back into line if it drifts (buffering
+// stalls, a throttled background tab).
+//
+// Two <audio> "decks": while one plays, the other quietly loads whatever is next, so
+// the hand-off is near-instant instead of waiting ~1s for the next file. If the browser
+// won't start the second deck on its own (iPhone Safari only lets an element play after
+// a tap), we drop back to a single deck for the rest of the session — exactly how it
+// worked before. Experimental: /radio?unlock=1 also primes the second deck on the tap,
+// for testing on an iPhone.
 
 const DRIFT_SECONDS = 3; // re-seek if the audio strays this far from the schedule
 const RETRY_AFTER_ERROR_MS = 4000;
+const PRELOAD_SECONDS = 25; // start loading the next item this long before the current one ends
+// A zero-length WAV, only used by the experimental ?unlock=1 mode.
+const SILENT_WAV = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=";
 
 type Status = "idle" | "connecting" | "live" | "error";
 
@@ -25,51 +35,123 @@ const fmt = (s: number) => {
 };
 
 export default function RadioPlayer() {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-  const loadedIdRef = useRef<string | null>(null);
+  const decksRef = useRef<(HTMLAudioElement | null)[]>([null, null]);
+  const activeRef = useRef(0); // which deck is on air
+  const holdsRef = useRef<(string | null)[]>([null, null]); // id of the item each deck holds
+  const dualRef = useRef(true); // false once a hand-off to the second deck fails
   const tunedRef = useRef(false);
   const lastErrorAtRef = useRef(0);
+  const preloadBlockedUntilRef = useRef(0);
+  const syncRef = useRef<() => void>(() => {});
   // Schedule state starts null so the server render and first client render match;
   // the real value is filled in after mount (it depends on the visitor's clock).
   const [air, setAir] = useState<OnAir | null>(null);
   const [tuned, setTuned] = useState(false);
   const [status, setStatus] = useState<Status>("idle");
 
+  // Empty a deck. Marks it empty FIRST so any events the reset triggers are ignored.
+  const clearDeck = useCallback((i: number) => {
+    holdsRef.current[i] = null;
+    const a = decksRef.current[i];
+    if (a) {
+      a.pause();
+      a.removeAttribute("src");
+      a.load(); // aborts any download
+    }
+  }, []);
+
   const sync = useCallback(() => {
-    const a = audioRef.current;
-    if (!a || !tunedRef.current) return;
+    if (!tunedRef.current) return;
+    const decks = decksRef.current;
+    const ai = activeRef.current;
+    const ii = 1 - ai;
+    const active = decks[ai];
+    if (!active) return;
     const s = onAir(Date.now());
 
-    // Wrong song loaded (or nothing yet): load what's on air and jump into it.
-    if (loadedIdRef.current !== s.track.id) {
-      if (Date.now() - lastErrorAtRef.current < RETRY_AFTER_ERROR_MS) return;
-      loadedIdRef.current = s.track.id;
-      setStatus("connecting");
-      a.src = audioSrc(s.track);
-      try {
-        a.currentTime = s.offset; // default start position; honoured by most browsers
-      } catch {
-        /* onLoadedMetadata corrects it for browsers that reject this early */
+    // 1) The playing deck already holds what's on air: keep it on time, preload what's next.
+    if (holdsRef.current[ai] === s.track.id) {
+      // The file ended a hair before the clock says the song is over — wait for the
+      // schedule to roll to the next one (onEnded sets a timer for the exact moment).
+      if (active.ended) return;
+      if (active.readyState >= 2 && !active.seeking && Math.abs(active.currentTime - s.offset) > DRIFT_SECONDS) {
+        active.currentTime = s.offset;
       }
-      a.play().catch(() => {});
+      if (active.paused) active.play().catch(() => {});
+
+      const idle = decks[ii];
+      if (dualRef.current && idle && s.remaining <= PRELOAD_SECONDS && Date.now() >= preloadBlockedUntilRef.current) {
+        const nxt = s.next[0];
+        if (holdsRef.current[ii] !== nxt.id) {
+          holdsRef.current[ii] = nxt.id;
+          idle.preload = "auto";
+          idle.src = audioSrc(nxt); // buffers quietly; not played yet
+        }
+      }
       return;
     }
 
-    // The file ended a hair before the clock says the song is over — wait for the
-    // schedule to roll to the next one rather than restarting this one.
-    if (a.ended) return;
-
-    if (a.readyState >= 2 && !a.seeking && Math.abs(a.currentTime - s.offset) > DRIFT_SECONDS) {
-      a.currentTime = s.offset;
+    // 2) The other deck was preloaded with exactly what's on air now: hand off to it.
+    const other = decks[ii];
+    if (dualRef.current && other && holdsRef.current[ii] === s.track.id) {
+      try {
+        if (Math.abs(other.currentTime - s.offset) > 0.5) other.currentTime = s.offset;
+      } catch {
+        /* not seekable yet — onLoadedMetadata / drift correction will fix it */
+      }
+      const started = other.play();
+      clearDeck(ai);
+      activeRef.current = ii;
+      const itemId = s.track.id;
+      // If the browser refuses to start it, go back to the single-deck behaviour:
+      // reload on deck 0 (the one the tap unlocked) and stay there for this session.
+      const fail = () => {
+        if (!tunedRef.current || holdsRef.current[activeRef.current] !== itemId) return;
+        dualRef.current = false;
+        clearDeck(0);
+        clearDeck(1);
+        activeRef.current = 0;
+        lastErrorAtRef.current = 0;
+        syncRef.current();
+      };
+      started?.catch(fail);
+      window.setTimeout(() => {
+        const a = decksRef.current[activeRef.current];
+        if (a && a.paused && !a.ended) fail();
+      }, 2500);
+      return;
     }
-    if (a.paused) a.play().catch(() => {});
-  }, []);
+
+    // 3) Nothing ready (first tune-in, an error, a big clock jump): load it on this deck.
+    if (Date.now() - lastErrorAtRef.current < RETRY_AFTER_ERROR_MS) return;
+    setStatus("connecting");
+    holdsRef.current[ai] = s.track.id;
+    active.src = audioSrc(s.track);
+    try {
+      active.currentTime = s.offset; // default start position; honoured by most browsers
+    } catch {
+      /* onLoadedMetadata corrects it for browsers that reject this early */
+    }
+    active.play().catch(() => {});
+  }, [clearDeck]);
+  useEffect(() => {
+    syncRef.current = sync;
+  }, [sync]);
 
   const tuneIn = useCallback(() => {
     tunedRef.current = true;
     setTuned(true);
-    loadedIdRef.current = null;
+    activeRef.current = 0;
+    holdsRef.current = [null, null];
     lastErrorAtRef.current = 0;
+    preloadBlockedUntilRef.current = 0;
+    if (typeof window !== "undefined" && new URLSearchParams(window.location.search).has("unlock")) {
+      const b = decksRef.current[1];
+      if (b) {
+        b.src = SILENT_WAV; // a tap-initiated play() "unlocks" the element on iPhone
+        b.play().then(() => b.pause()).catch(() => {});
+      }
+    }
     sync(); // runs inside the click, so the browser lets audio start
   }, [sync]);
 
@@ -77,14 +159,10 @@ export default function RadioPlayer() {
     tunedRef.current = false;
     setTuned(false);
     setStatus("idle");
-    loadedIdRef.current = null;
-    const a = audioRef.current;
-    if (a) {
-      a.pause();
-      a.removeAttribute("src");
-      a.load(); // aborts the download
-    }
-  }, []);
+    clearDeck(0);
+    clearDeck(1);
+    activeRef.current = 0;
+  }, [clearDeck]);
 
   useEffect(() => {
     setAir(onAir(Date.now()));
@@ -130,35 +208,57 @@ export default function RadioPlayer() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tuned, trackId, tuneIn, stop]);
 
-  const onLoadedMetadata = () => {
-    const a = audioRef.current;
-    if (!a || !tunedRef.current) return;
+  const onLoadedMetadata = (i: number) => {
+    const a = decksRef.current[i];
+    if (!a || !tunedRef.current || i !== activeRef.current) return; // the idle deck is just preloading
     const s = onAir(Date.now());
-    if (s.track.id !== loadedIdRef.current) return; // sync() will load the right one
+    if (s.track.id !== holdsRef.current[i]) return; // sync() will load the right one
     if (Math.abs(a.currentTime - s.offset) > 1.5) {
       a.currentTime = Math.min(s.offset, Math.max(0, a.duration - 0.25));
     }
   };
-  const onError = () => {
-    if (!tunedRef.current) return;
-    lastErrorAtRef.current = Date.now();
-    loadedIdRef.current = null; // force a fresh load on the next tick
-    setStatus("error");
+  const onError = (i: number) => {
+    if (!tunedRef.current || holdsRef.current[i] === null) return; // ignore our own clearing
+    if (i === activeRef.current) {
+      lastErrorAtRef.current = Date.now();
+      holdsRef.current[i] = null; // force a fresh load on the next tick
+      setStatus("error");
+    } else {
+      holdsRef.current[i] = null; // the preload failed; try again in a few seconds
+      preloadBlockedUntilRef.current = Date.now() + 5000;
+    }
+  };
+  // When a file ends, roll to the next item at the exact moment the clock says so —
+  // not up to a second later at the next tick.
+  const onEnded = (i: number) => {
+    if (i !== activeRef.current) return;
+    syncRef.current();
+    const s = onAir(Date.now());
+    if (s.remaining < 2) window.setTimeout(() => syncRef.current(), Math.max(0, s.remaining * 1000) + 15);
   };
 
   const pct = air ? Math.min(100, (air.offset / air.track.duration) * 100) : 0;
 
   return (
     <div className="w-full max-w-md mx-auto px-6 pt-8 pb-16 text-center">
-      <audio
-        ref={audioRef}
-        preload="auto"
-        onLoadedMetadata={onLoadedMetadata}
-        onPlaying={() => setStatus("live")}
-        onWaiting={() => tunedRef.current && setStatus("connecting")}
-        onEnded={sync}
-        onError={onError}
-      />
+      {[0, 1].map((i) => (
+        <audio
+          key={i}
+          ref={(el) => {
+            decksRef.current[i] = el;
+          }}
+          preload="auto"
+          onLoadedMetadata={() => onLoadedMetadata(i)}
+          onPlaying={() => {
+            if (i === activeRef.current) setStatus("live");
+          }}
+          onWaiting={() => {
+            if (tunedRef.current && i === activeRef.current) setStatus("connecting");
+          }}
+          onEnded={() => onEnded(i)}
+          onError={() => onError(i)}
+        />
+      ))}
 
       <div
         className="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-widest mb-6"

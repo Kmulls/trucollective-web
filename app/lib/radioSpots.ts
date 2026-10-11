@@ -4,7 +4,7 @@
 // and rewrites the generated list below). Then redeploy.
 
 /** A spot plays after every this-many songs, and once more at the end of each loop. */
-export const SPOT_EVERY = 8;
+export const SPOT_EVERY = 6;
 
 /** Shown as the "artist" while a spot is on air. */
 export const DJ_NAME = "Tru Collective Radio";

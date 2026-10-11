@@ -13,8 +13,9 @@ export const metadata: Metadata = {
     description: "Tune in — Tru Collective songs, playing now.",
     url: "https://trucollective.app/radio",
     siteName: "Tru Collective",
-    images: [{ url: "/og.jpg", width: 1200, height: 630 }],
+    // image comes from app/radio/opengraph-image.tsx
   },
+  twitter: { card: "summary_large_image" },
 };
 
 export default function RadioPage() {
