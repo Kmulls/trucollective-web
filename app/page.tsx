@@ -96,8 +96,14 @@ export default function Home() {
               higher frequencies on our planet.
             </p>
             <p>
-              May it be the medicine to increase your peace. Put the Groove in your moves, and the
-              Yes in all that you Bless.
+              May it increase your <span className="word-peace">peace</span>.
+              <br />
+              May it put the <span className="word-groove">groove</span> in every move.
+              <br />
+              And may it help you say <span className="word-yes">YES</span> to everything that awaits you.
+            </p>
+            <p>
+              Feel free to share this, and the app has a mood mixer to help us shift our states.
             </p>
           </div>
 
