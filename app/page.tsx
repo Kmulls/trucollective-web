@@ -136,6 +136,7 @@ export default function Home() {
               Download on the App Store
             </a>
             ) : (
+              <>
               <a
                 href="/radio?play=1"
                 className="inline-flex items-center gap-3 px-9 py-5 rounded-xl font-semibold text-xl transition-opacity hover:opacity-90"
@@ -146,6 +147,7 @@ export default function Home() {
               <span className="text-base" style={{ color: "var(--text-secondary)" }}>
                 Opens the radio and starts playing. On iPhone, tap Play once it loads.
               </span>
+              </>
             )}
           </div>
           {APP_PUBLISHED ? (
