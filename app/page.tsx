@@ -121,7 +121,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 items-center">
+          <div className="flex flex-col gap-4 items-center">
             {APP_PUBLISHED ? (
             <a
               href={APP_STORE_URL}
@@ -143,6 +143,9 @@ export default function Home() {
               >
                 ▶ Tune in to Tru Collective Radio
               </a>
+              <span className="text-base" style={{ color: "var(--text-secondary)" }}>
+                Opens the radio and starts playing. On iPhone, tap Play once it loads.
+              </span>
             )}
           </div>
           {APP_PUBLISHED ? (

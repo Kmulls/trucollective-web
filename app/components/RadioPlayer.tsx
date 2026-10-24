@@ -48,6 +48,7 @@ export default function RadioPlayer() {
   // the real value is filled in after mount (it depends on the visitor's clock).
   const [air, setAir] = useState<OnAir | null>(null);
   const [tuned, setTuned] = useState(false);
+  const [needsTap, setNeedsTap] = useState(false); // autoplay was blocked: tell them to press Play
   const [status, setStatus] = useState<Status>("idle");
   // Tap the artwork to flip it to scrolling lyrics (and back). Stays flipped from song to song.
   const [showLyrics, setShowLyrics] = useState(false);
@@ -175,7 +176,10 @@ export default function RadioPlayer() {
     if (!new URLSearchParams(window.location.search).has("play")) return;
     tuneIn();
     const id = window.setTimeout(() => {
-      if (decksRef.current[activeRef.current]?.paused) stop();
+      if (decksRef.current[activeRef.current]?.paused) {
+        stop();
+        setNeedsTap(true);
+      }
     }, 3000);
     return () => window.clearTimeout(id);
   }, [tuneIn, stop]);
@@ -383,6 +387,12 @@ export default function RadioPlayer() {
             ■ Stop
           </button>
         ) : (
+          <>
+          {needsTap && (
+            <p className="text-base font-semibold mb-3" style={{ color: "var(--accent-gold)" }}>
+              Almost there &mdash; your browser wants one tap. Press Play to start the music.
+            </p>
+          )}
           <button
             onClick={tuneIn}
             disabled={!air}
@@ -391,6 +401,7 @@ export default function RadioPlayer() {
           >
             ▶ Press Play
           </button>
+          </>
         )}
         <p className="text-xs mt-3 min-h-[1rem]" style={{ color: "var(--text-secondary)" }}>
           {status === "connecting" && "Connecting…"}
