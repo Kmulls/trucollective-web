@@ -168,6 +168,18 @@ export default function RadioPlayer() {
     activeRef.current = 0;
   }, [clearDeck]);
 
+  // "/radio?play=1" (the home-page button) tunes in on arrival. If the browser refuses
+  // to autoplay (some, e.g. Safari, only allow audio started by a tap on this page),
+  // fall back to the normal Press Play button instead of sitting on "connecting".
+  useEffect(() => {
+    if (!new URLSearchParams(window.location.search).has("play")) return;
+    tuneIn();
+    const id = window.setTimeout(() => {
+      if (decksRef.current[activeRef.current]?.paused) stop();
+    }, 3000);
+    return () => window.clearTimeout(id);
+  }, [tuneIn, stop]);
+
   useEffect(() => {
     setAir(onAir(Date.now()));
     const tick = () => {

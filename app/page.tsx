@@ -80,16 +80,26 @@ export default function Home() {
             className="rounded-2xl mb-8 shadow-2xl"
             priority
           />
-          <h1 className="text-5xl md:text-6xl font-bold tracking-tight mb-4 leading-tight">
-            Music that moves you.
+          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-3 leading-tight">
+            Tru Collective Music
           </h1>
-          <p className="text-xl max-w-xl mb-3" style={{ color: "var(--text-secondary)" }}>
-            A soundtrack for personal growth. Name where you are, and your mix is
-            built on your phone — nothing about how you feel leaves your device.
-          </p>
-          <p className="text-sm max-w-xl mb-10" style={{ color: "var(--text-secondary)", opacity: 0.75 }}>
-            Lyrics written by a human. Recordings produced with AI assistance.
-          </p>
+          <h2 className="text-2xl md:text-3xl font-semibold mb-10" style={{ color: "var(--accent-gold)" }}>
+            Your personal soundtrack for growth.
+          </h2>
+          <div
+            className="max-w-2xl mb-12 space-y-6 text-xl md:text-2xl leading-relaxed"
+            style={{ color: "var(--text-secondary)" }}
+          >
+            <p>These songs were written by a human man, and all are <span className="whitespace-nowrap">AI-assisted</span>.</p>
+            <p>
+              They are written for you as a tool for conscious rewiring and calibration to the
+              higher frequencies on our planet.
+            </p>
+            <p>
+              May it be the medicine to increase your peace. Put the Groove in your moves, and the
+              Yes in all that you Bless.
+            </p>
+          </div>
 
           <div className="flex flex-col sm:flex-row gap-4 items-center">
             {APP_PUBLISHED ? (
@@ -107,30 +117,24 @@ export default function Home() {
             </a>
             ) : (
               <a
-                href="/radio"
-                className="inline-flex items-center gap-3 px-7 py-4 rounded-xl font-semibold text-base transition-opacity hover:opacity-90"
+                href="/radio?play=1"
+                className="inline-flex items-center gap-3 px-9 py-5 rounded-xl font-semibold text-xl transition-opacity hover:opacity-90"
                 style={{ background: "var(--accent-gold)", color: "#0b0d14" }}
               >
                 ▶ Tune in to Tru Collective Radio
               </a>
             )}
-            <span
-              className="text-sm px-5 py-2 rounded-xl border"
-              style={{ borderColor: "var(--border)", color: "var(--text-secondary)" }}
-            >
-              iOS · Android coming soon
-            </span>
           </div>
           {APP_PUBLISHED ? (
             <a
-              href="/radio"
-              className="mt-6 text-sm font-semibold transition-opacity hover:opacity-80"
+              href="/radio?play=1"
+              className="mt-6 text-lg font-semibold transition-opacity hover:opacity-80"
               style={{ color: "var(--accent-gold)" }}
             >
               ▶ Or tune in to Tru Collective Radio — live now
             </a>
           ) : (
-            <p className="mt-6 text-sm" style={{ color: "var(--text-secondary)" }}>
+            <p className="mt-10 max-w-2xl text-xl md:text-2xl leading-relaxed" style={{ color: "var(--text-secondary)" }}>
               The app is invite-only right now &mdash; email{" "}
               <a href={ACCESS_MAILTO} className="underline" style={{ color: "var(--accent-gold)" }}>
                 {ACCESS_EMAIL}
