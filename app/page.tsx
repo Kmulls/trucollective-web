@@ -177,16 +177,23 @@ export default function Home() {
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight mb-6">
             The Tru Collective Story
           </h2>
-          <p className="text-lg leading-relaxed mb-4" style={{ color: "var(--text-secondary)" }}>
+          <p className="text-lg leading-relaxed mb-8" style={{ color: "var(--text-secondary)" }}>
             Tru Collective started as a soundtrack for surviving. Over one year of
             extreme stress, loss and pressure, one person wrote across five voices
-            — 144Kai, Tru Roots, The Mercy Hearts, Soul Fam, Rua Isbe. Not songs
-            about the hard year. Songs written through it, to get to the other side
-            of it.
+            &mdash; 144Kai, Tru Roots, The Mercy Hearts, Soul Fam, Rua Isbe. Not songs
+            about the hard year. All the songs are written to get through it, to grow
+            through it, and to heal with it. So the app was built so the songs could
+            do the same for you. Let music be thy medicine.
           </p>
-          <p className="text-lg leading-relaxed mb-6" style={{ color: "var(--text-secondary)" }}>
-            They worked. So the app got built so the songs could do the
-            same for you. Let music be thy medicine.
+          <p className="text-xl md:text-2xl leading-relaxed mb-6" style={{ color: "var(--text-secondary)" }}>
+            The goal of Tru Collective is to seed the collective consciousness with the most
+            positive songs for growth and healing. We are the collective. If you want to sing
+            these songs, just click the art and sing along. If you want the tracks without the
+            vocals, email us, and you can produce a version with you singing.
+          </p>
+          <p className="text-xl md:text-2xl leading-relaxed mb-10" style={{ color: "var(--text-secondary)" }}>
+            Our goal is to get a collective singing, and playing, and making music. It&rsquo;s the
+            fastest path I have found to heal our hearts and synthesize our minds.
           </p>
           <a
             href="#for-artists"
