@@ -403,13 +403,13 @@ export default function RadioPlayer() {
           </button>
           </>
         )}
-        <p className="text-xs mt-3 min-h-[1rem]" style={{ color: "var(--text-secondary)" }}>
+        <p className="text-base font-semibold mt-3 min-h-[1.5rem]" style={{ color: "var(--text-secondary)" }}>
           {status === "connecting" && "Connecting…"}
           {status === "live" && "Live — in sync with everyone listening"}
           {status === "error" && "Couldn’t load that song — retrying…"}
         </p>
         {!showLyrics && (
-          <p className="text-xs mt-2" style={{ color: "var(--text-secondary)" }}>
+          <p className="text-base font-semibold mt-2" style={{ color: "var(--text-secondary)" }}>
             <span style={{ color: "var(--accent-gold)" }}>↑</span> Tap the art to sing along &mdash; lyrics scroll like karaoke
           </p>
         )}
@@ -418,25 +418,25 @@ export default function RadioPlayer() {
       {air && (
         <div className="mt-10 text-left">
           <h3
-            className="text-xs font-semibold uppercase tracking-widest mb-3"
+            className="text-base font-bold uppercase tracking-widest mb-4"
             style={{ color: "var(--accent-gold)" }}
           >
             Up next
           </h3>
           {air.next.map((t) => (
-            <div key={t.id} className="flex items-center gap-3 py-2">
+            <div key={t.id} className="flex items-center gap-4 py-3">
               <Image
                 src={artSrc(t)}
                 alt=""
-                width={40}
-                height={40}
+                width={56}
+                height={56}
                 unoptimized
                 className="rounded-lg object-cover flex-shrink-0"
-                style={{ width: 40, height: 40 }}
+                style={{ width: 56, height: 56 }}
               />
               <div className="min-w-0">
-                <div className="text-sm font-semibold truncate">{t.title}</div>
-                <div className="text-xs truncate" style={{ color: "var(--text-secondary)" }}>
+                <div className="text-lg font-bold truncate">{t.title}</div>
+                <div className="text-base font-semibold truncate" style={{ color: "var(--text-secondary)" }}>
                   {t.artist}
                 </div>
               </div>
