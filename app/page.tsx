@@ -180,7 +180,7 @@ export default function Home() {
             of it.
           </p>
           <p className="text-lg leading-relaxed mb-6" style={{ color: "var(--text-secondary)" }}>
-            They worked. So the app got built, alone, so the songs could do the
+            They worked. So the app got built so the songs could do the
             same for you. Let music be thy medicine.
           </p>
           <a
