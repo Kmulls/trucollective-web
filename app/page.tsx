@@ -71,16 +71,30 @@ export default function Home() {
 
       <main className="flex-1">
         {/* Hero */}
-        <section className="flex flex-col items-center text-center px-6 pt-24 pb-16">
-          <Image
-            src="/icon-tru.png"
-            alt="Tru Collective app icon"
-            width={96}
-            height={96}
-            className="rounded-2xl mb-8 shadow-2xl"
-            priority
-          />
-          <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-3 leading-tight">
+        <section className="flex flex-col items-center text-center px-6 pt-8 pb-16">
+          {/* Big logo sits above the title and fades out at its foot, so the title can tuck
+              into the faded edge without ever covering the words on the logo itself. */}
+          <div
+            className="relative w-[min(88vw,460px)] aspect-square -mb-16 md:-mb-20 pointer-events-none"
+            style={{
+              WebkitMaskImage: "linear-gradient(#000 62%, transparent 96%)",
+              maskImage: "linear-gradient(#000 62%, transparent 96%)",
+            }}
+          >
+            <div
+              className="absolute inset-0 rounded-full"
+              style={{ background: "radial-gradient(circle, rgba(245,185,66,0.22), transparent 68%)" }}
+            />
+            <Image
+              src="/icon-tru.png"
+              alt="Tru Collective app icon"
+              fill
+              sizes="(max-width: 520px) 88vw, 460px"
+              className="object-contain rounded-[2.5rem]"
+              priority
+            />
+          </div>
+          <h1 className="relative text-5xl md:text-7xl font-bold tracking-tight mb-3 leading-tight">
             Tru Collective Music
           </h1>
           <h2 className="text-2xl md:text-3xl font-semibold mb-10" style={{ color: "var(--accent-gold)" }}>
@@ -90,11 +104,11 @@ export default function Home() {
             className="max-w-2xl mb-12 space-y-6 text-xl md:text-2xl leading-relaxed"
             style={{ color: "var(--text-secondary)" }}
           >
-            <p>These songs were written by a human man, and all are <span className="whitespace-nowrap">AI-assisted</span>.</p>
             <p>
               They are written for you as a tool for conscious rewiring and calibration to the
               higher frequencies on our planet.
             </p>
+            <p>These songs were written by a human man, and all are <span className="whitespace-nowrap">AI-assisted</span>.</p>
             <p>
               May it increase your <span className="word-peace">peace</span>.
               <br />

@@ -19,13 +19,13 @@ body {
 }
 
 /* Home-page hero: three emphasized words. Peace breathes, Groove sways, YES pops. */
-.word-peace, .word-groove, .word-yes { display: inline-block; font-weight: 700; color: var(--text-primary); }
+.word-peace, .word-groove, .word-yes { display: inline-block; font-weight: 700; color: var(--accent-gold); text-shadow: 0 0 14px rgba(245, 185, 66, 0.7); }
 .word-peace { animation: peace-breathe 5s ease-in-out infinite; }
 .word-groove { animation: groove-sway 1.6s ease-in-out infinite; transform-origin: 50% 80%; }
-.word-yes { color: var(--accent-gold); animation: yes-pop 2.4s ease-in-out infinite; }
+.word-yes { animation: yes-pop 2.4s ease-in-out infinite; }
 @keyframes peace-breathe {
-  0%, 100% { opacity: 0.7; text-shadow: 0 0 0 rgba(160, 200, 255, 0); transform: scale(1); }
-  50% { opacity: 1; text-shadow: 0 0 22px rgba(160, 200, 255, 0.85); transform: scale(1.06); }
+  0%, 100% { opacity: 0.8; text-shadow: 0 0 10px rgba(245, 185, 66, 0.5); transform: scale(1); }
+  50% { opacity: 1; text-shadow: 0 0 26px rgba(245, 185, 66, 0.95); transform: scale(1.06); }
 }
 @keyframes groove-sway {
   0%, 100% { transform: translateY(0) rotate(-3deg); }
@@ -34,7 +34,7 @@ body {
   75% { transform: translateY(-3px) rotate(0deg); }
 }
 @keyframes yes-pop {
-  0%, 60%, 100% { transform: scale(1); text-shadow: none; }
+  0%, 60%, 100% { transform: scale(1); }
   70% { transform: scale(1.3); text-shadow: 0 0 20px rgba(245, 185, 66, 0.9); }
   80% { transform: scale(0.96); }
   90% { transform: scale(1.1); }
